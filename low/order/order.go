@@ -57,10 +57,8 @@ func SelectionOrder(nums []int) []int {
 }
 
 func MergeNums(array []int, start, mid, end int) {
-	fmt.Printf("======== stat = %d  mid = %d  end = %d \n", start, mid, end)
-	A := array[start:mid]
-	B := array[mid:end]
-	fmt.Println(A, B)
+	A := array[start : mid+1]
+	B := array[mid+1 : end+1]
 	result := make([]int, 0)
 	i, j := 0, 0
 
@@ -91,12 +89,16 @@ func MergeNums(array []int, start, mid, end int) {
 		}
 	}
 
-	copy(array, result)
+	copy(array[start:end+1], result)
 	fmt.Println(result)
 }
 
 func MergeSortC(start int, end int, array []int) {
-	if start >= end {
+	if start >= end-1 {
+		if array[start] > array[end] {
+			array[start], array[end] = array[end], array[start]
+		}
+
 		return
 	}
 
@@ -114,7 +116,7 @@ func MergeOrder(nums []int) []int {
 
 func main() {
 	arrays := []int{1, 4, 3, 5, 6, 3, 2, 7, 6, 9, 10, 8}
-	//fmt.Println(BubbleOrder(arrays))
+	fmt.Println(BubbleOrder(arrays))
 	fmt.Println(MergeOrder(arrays))
 	//arrays2 := []int{1, 4}
 	//MergeNums(arrays2, 0, 0, 1)

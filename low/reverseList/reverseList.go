@@ -2,16 +2,12 @@ package main
 
 import (
 	"fmt"
+	"leetcode/common"
 )
 
-type ListNode struct {
-	Val  int
-	Next *ListNode
-}
-
-func rev(head *ListNode) *ListNode {
+func rev(head *common.ListNode) *common.ListNode {
 	curr := head
-	var prev *ListNode
+	var prev *common.ListNode
 	prev = nil
 
 	for curr != nil {
@@ -26,7 +22,7 @@ func rev(head *ListNode) *ListNode {
 
 }
 
-func rev2(head *ListNode) []int {
+func rev2(head *common.ListNode) []int {
 	if head == nil {
 		return []int{}
 	}
@@ -38,9 +34,9 @@ func rev2(head *ListNode) []int {
 	return append(rev2(head.Next), head.Val)
 }
 
-func reverseList(head *ListNode) *ListNode {
+func reverseList(head *common.ListNode) *common.ListNode {
 	curr := head
-	var prv *ListNode
+	var prv *common.ListNode
 	prv = nil
 
 	for curr != nil {
@@ -53,9 +49,9 @@ func reverseList(head *ListNode) *ListNode {
 	return prv
 }
 
-func reverseList1(head *ListNode) *ListNode {
+func reverseList1(head *common.ListNode) *common.ListNode {
 	curr := head
-	var prev *ListNode
+	var prev *common.ListNode
 	prev = nil
 
 	for curr != nil {
@@ -68,34 +64,10 @@ func reverseList1(head *ListNode) *ListNode {
 	return prev
 }
 
-func buildList() *ListNode {
-	head := new(ListNode)
-	head.Val = 0
-	h := head
-	for _, i := range []int{1, 2, 3, 4, 5} {
-		tmp := &ListNode{
-			Val:  i,
-			Next: nil,
-		}
-		h.Next = tmp
-		h = h.Next
-	}
-
-	return head
-}
-
-func debugList(list *ListNode) {
-	debug := list
-	for debug != nil {
-		fmt.Println(debug.Val)
-		debug = debug.Next
-	}
-}
-
 func main() {
-	head := buildList()
+	head := common.BuildList([]int{1, 2, 3, 4, 5, 6, 7, 8, 9})
 
-	//debugList(reverseList(head))
+	common.DumpList(reverseList(head))
 	ret := rev2(head)
 	fmt.Println(ret)
 }

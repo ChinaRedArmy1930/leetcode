@@ -13,3 +13,27 @@ func DumpTreePreOrder(head *TreeNode) {
 	DumpTreePreOrder(head.Left)
 	DumpTreePreOrder(head.Right)
 }
+
+func BuildList(nums []int) *ListNode {
+	head := new(ListNode)
+	head.Val = 0
+	h := head
+	for _, i := range nums {
+		tmp := &ListNode{
+			Val:  i,
+			Next: nil,
+		}
+		h.Next = tmp
+		h = h.Next
+	}
+
+	return head
+}
+
+func DumpList(list *ListNode) {
+	debug := list
+	for debug != nil {
+		fmt.Println(debug.Val)
+		debug = debug.Next
+	}
+}
