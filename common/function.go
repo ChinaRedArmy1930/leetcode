@@ -15,10 +15,14 @@ func DumpTreePreOrder(head *TreeNode) {
 }
 
 func BuildList(nums []int) *ListNode {
+	if len(nums) == 0 {
+		return nil
+	}
+
 	head := new(ListNode)
-	head.Val = 0
+	head.Val = nums[0]
 	h := head
-	for _, i := range nums {
+	for _, i := range nums[1:] {
 		tmp := &ListNode{
 			Val:  i,
 			Next: nil,
@@ -33,7 +37,7 @@ func BuildList(nums []int) *ListNode {
 func DumpList(list *ListNode) {
 	debug := list
 	for debug != nil {
-		fmt.Println(debug.Val)
+		fmt.Print(debug.Val)
 		debug = debug.Next
 	}
 }
