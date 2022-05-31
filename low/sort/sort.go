@@ -150,10 +150,10 @@ func heapSort(nums []int) []int {
 }
 
 func partition(nums []int, start int, end int) int {
-	value := nums[start]
-
 	left := start + 1
 	right := end
+	value := nums[start]
+
 	for left < right {
 		for left < right && nums[left] < value {
 			left++
@@ -173,13 +173,13 @@ func partition(nums []int, start int, end int) int {
 	if left == right && nums[right] > value {
 		right--
 	}
-	nums[start], nums[right] = nums[right], nums[start]
 
+	nums[start], nums[right] = nums[right], nums[start]
 	return right
 }
 
 func quickSortR(nums []int, start int, end int) {
-	if start >= end {
+	if start > end {
 		return
 	}
 
