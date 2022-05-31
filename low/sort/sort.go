@@ -4,7 +4,7 @@ import (
 	"fmt"
 )
 
-func BubbleOrder(arrays []int) []int {
+func BubbleSort(arrays []int) []int {
 	arrayLen := len(arrays)
 	for i := 0; i < arrayLen; i++ {
 		for j := i; j < arrayLen; j++ {
@@ -17,7 +17,7 @@ func BubbleOrder(arrays []int) []int {
 	return arrays
 }
 
-func InsertOrder(nums []int) []int {
+func InsertSort(nums []int) []int {
 	if len(nums) == 0 {
 		return []int{}
 	}
@@ -37,7 +37,7 @@ func InsertOrder(nums []int) []int {
 	return nums
 }
 
-func SelectionOrder(nums []int) []int {
+func SelectionSort(nums []int) []int {
 	for i := 0; i < len(nums); i++ {
 		index := i + 1
 
@@ -107,7 +107,7 @@ func MergeSortC(start int, end int, array []int) {
 	MergeNums(array, start, mid, end)
 }
 
-func MergeOrder(nums []int) []int {
+func MergeSort(nums []int) []int {
 	MergeSortC(0, len(nums)-1, nums)
 	return nums
 }
@@ -149,13 +149,59 @@ func heapSort(nums []int) []int {
 	return nums
 }
 
+func partition(nums []int, start int, end int) int {
+	value := nums[start]
+
+	left := start + 1
+	right := end
+	for left < right {
+		for left < right && nums[left] < value {
+			left++
+		}
+
+		for left < right && nums[right] > value {
+			right--
+		}
+
+		if left < right {
+			nums[left], nums[right] = nums[right], nums[left]
+			left++
+			right--
+		}
+	}
+
+	if left == right && nums[right] > value {
+		right--
+	}
+	nums[start], nums[right] = nums[right], nums[start]
+
+	return right
+}
+
+func quickSortR(nums []int, start int, end int) {
+	if start >= end {
+		return
+	}
+
+	middle := partition(nums, start, end)
+	quickSortR(nums, start, middle-1)
+	quickSortR(nums, middle+1, end)
+}
+
+func quickSort(nums []int) []int {
+	quickSortR(nums, 0, len(nums)-1)
+	return nums
+}
+
 func main() {
-	arrays := []int{1, 4, 3, 5, 6, 3, 2, 7, 6, 9, 10, 8}
-	//fmt.Println(BubbleOrder(arrays))
-	//fmt.Println(MergeOrder(arrays))
-	//fmt.Println(InsertOrder(arrays))
-	fmt.Println(heapSort(arrays))
+	//arrays := []int{1, 4, 3, 5, 6, 3, 2, 7, 6, 9, 10, 8}
+	arrays := []int{8, 6, 4, 5, 7, 3, 9, 10}
+	//fmt.Println(BubbleSort(arrays))
+	//fmt.Println(MergeSort(arrays))
+	//fmt.Println(InsertSort(arrays))
+	//fmt.Println(heapSort(arrays))
 	//arrays2 := []int{1, 4}
 	//MergeNums(arrays2, 0, 0, 1)
 	//fmt.Println(arrays2)
+	fmt.Println(quickSort(arrays))
 }
