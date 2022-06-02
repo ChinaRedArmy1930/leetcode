@@ -2,15 +2,7 @@ package main
 
 import "leetcode/common"
 
-/**
- * Definition for a binary tree node.
- * type TreeNode struct {
- *     Val int
- *     Left *TreeNode
- *     Right *TreeNode
- * }
- */
-//TODO
+//todo
 func buildTree(preorder []int, inorder []int) *common.TreeNode {
 	var root *common.TreeNode
 
