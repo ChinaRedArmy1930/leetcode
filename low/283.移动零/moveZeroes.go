@@ -1,67 +1,54 @@
 package main
 
-import "fmt"
-
-func moveZeroes2(nums []int) {
+func moveZeroes3(nums []int) {
+	ZeroNum := 0
 	for i := 0; i < len(nums); i++ {
-		for j := i + 1; j < len(nums); j++ {
-			if nums[i] == 0 {
-				nums[i], nums[j] = nums[j], nums[i]
-			}
-		}
-	}
-}
-
-func moveZeroes(nums []int) {
-	if len(nums) <= 1 {
-		return
-	}
-
-	i := 0
-
-	count := 0
-
-	for _, v := range nums {
-		if v == 0 {
-			count += 1
+		if nums[i] != 0 {
+			nums[ZeroNum] = nums[i]
+			ZeroNum++
 		}
 	}
 
-	if count == len(nums) {
-		return
-	}
-
-	for {
-		if i == len(nums)-count {
-			break
-		}
-
-		if nums[i] == 0 {
-			for j := i; j < len(nums)-1; j++ {
-				nums[j] = nums[j+1]
-			}
-
-			continue
-		}
-		i++
-	}
-
-	for i := len(nums) - count; i < len(nums); i++ {
+	for i := ZeroNum; i < len(nums); i++ {
 		nums[i] = 0
 	}
 }
 
-func main() {
-	testArrays := [][]int{
-		{0, 1, 0, 3, 12},
-		{0},
-		{0, 0},
-		{0, 1, 0},
-		{0, 0, 1},
+func moveZeroes2(nums []int) {
+	l := 0
+	r := 0
+	for r < len(nums) {
+		if nums[r] != 0 {
+			nums[l], nums[r] = nums[r], nums[l]
+			l++
+		}
+		r++
 	}
-	for _, array := range testArrays {
-		moveZeroes2(array)
-	}
+}
 
-	fmt.Println(testArrays)
+func moveZeroes(nums []int) {
+	i := 0 //第一个0
+	j := 0 //第一个不为0
+
+	for i < len(nums) && j < len(nums) {
+		if nums[i] != 0 {
+			i++
+		}
+
+		if nums[j] == 0 {
+			j++
+		}
+
+		if i >= len(nums) || j >= len(nums) {
+			break
+		}
+
+		if nums[i] == 0 && nums[j] != 0 {
+			if i < j {
+				nums[i], nums[j] = nums[j], nums[i]
+			} else {
+				j++
+			}
+		}
+	}
 }

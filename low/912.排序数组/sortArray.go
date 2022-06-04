@@ -1,7 +1,5 @@
 package main
 
-import "fmt"
-
 func SelectionArray(nums []int) []int {
 	for i := 0; i < len(nums); i++ {
 		value := nums[i]
@@ -87,17 +85,21 @@ func MergeSort(nums []int) []int {
 	return nums
 }
 
-func main() {
-	arrays := [][]int{
-		//{5, 2, 3, 1},
-		{5, 1, 1, 2, 0, 0},
-	}
-	//Merge(array1, 0, 4, len(array1))
-	//fmt.Println(array1)
-	for _, array := range arrays {
-		//Merge(array, 0, 4, len(array)-1)
-		//fmt.Println(array)
-		fmt.Println(MergeSort(array))
+func InsertSort(nums []int) []int {
+	for i := 0; i < len(nums); i++ {
+		value := nums[i]
+		j := i - 1
+		//倒序非常重要
+		for j = i - 1; j >= 0; j-- {
+			if nums[j] > value {
+				nums[j+1] = nums[j]
+			} else {
+				//非常重要, 得到分界点
+				break
+			}
+		}
+		nums[j+1] = value
 	}
 
+	return nums
 }
