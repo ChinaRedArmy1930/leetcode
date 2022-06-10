@@ -1,4 +1,4 @@
-package main
+package _38_找到字符串中所有字母异位词
 
 func findAnagrams(s string, p string) []int {
 	left := 0
