@@ -5,38 +5,71 @@ import (
 	"leetcode/common"
 )
 
-func traversal(root *common.TreeNode, result map[int][]int, depth int) {
+func travseral(root *common.TreeNode, depthMap map[int][]int, depth *int) {
 	if root == nil {
 		return
 	}
 
-	depth++
-	if root.Left != nil {
-		result[depth] = append(result[depth], root.Left.Val)
+	*depth++
+
+	if _, ok := depthMap[*depth]; ok {
+		depthMap[*depth] = append(depthMap[*depth], root.Val)
+	} else {
+		tmp := make([]int, 0)
+		tmp = append(tmp, root.Val)
+		depthMap[*depth] = tmp
 	}
 
-	if root.Right != nil {
-		result[depth] = append(result[depth], root.Right.Val)
-	}
+	travseral(root.Left, depthMap, depth)
+	travseral(root.Right, depthMap, depth)
 
-	traversal(root.Left, result, depth)
-	traversal(root.Right, result, depth)
-	depth--
+	*depth--
 }
+
 func levelOrder(root *common.TreeNode) [][]int {
 	if root == nil {
-		return nil
+		return [][]int{}
 	}
-	result := make(map[int][]int, 0)
-	result[0] = []int{root.Val}
-	traversal(root, result, 0)
 
+	//K -> 层数, V -> 层数对应的数据
+	depthMap := make(map[int][]int, 0)
+	depth := 0
+	travseral(root, depthMap, &depth)
+
+	result := make([][]int, len(depthMap))
+
+	for k, v := range depthMap {
+		result[k-1] = v
+	}
+
+	return result
+}
+
+func levelOrder2(root *common.TreeNode) [][]int {
+	if root == nil {
+		return [][]int{}
+	}
+	q := []*common.TreeNode{root}
 	ret := make([][]int, 0)
-	for i := 0; i < len(result); i++ {
-		ret = append(ret, result[i])
-	}
+	for i := 0; len(q) > 0; i++ {
+		p := make([]*common.TreeNode, 0)
+		tmp := make([]int, 0)
+		for j := 0; j < len(q); j++ {
+			node := q[j]
+			tmp = append(tmp, node.Val)
+			if node.Left != nil {
+				p = append(p, node.Left)
+			}
 
+			if node.Right != nil {
+				p = append(p, node.Right)
+			}
+		}
+		q = p
+		ret = append(ret, tmp)
+	}
 	return ret
+
 }
 
 func main() {
@@ -62,5 +95,5 @@ func main() {
 		},
 	}
 
-	fmt.Println(levelOrder(test))
+	fmt.Println(levelOrder2(test))
 }

@@ -13,10 +13,44 @@ func DumpTreePreOrder(head *TreeNode) {
 	}
 	fmt.Print(head.Val)
 	fmt.Print(" ")
-	//if head.Left == nil && head.Right == nil {
-	//	return
-	//}
+
 	DumpTreePreOrder(head.Left)
+	DumpTreePreOrder(head.Right)
+}
+
+func DumpTreeLevelOrder(head *TreeNode) {
+	if head == nil {
+		return
+	}
+
+	p := []*TreeNode{head}
+
+	for i := 0; len(p) > 0; i++ {
+		var q []*TreeNode
+		for j := 0; j < len(p); j++ {
+			node := p[j]
+			if node == nil {
+				fmt.Print("null ")
+				continue
+			}
+			fmt.Print(strconv.Itoa(node.Val) + " ")
+			q = append(q, node.Left)
+			q = append(q, node.Right)
+		}
+		fmt.Println()
+		p = q
+	}
+}
+
+func DumpTreeInOrder(head *TreeNode) {
+	if head == nil {
+		fmt.Print("nil ")
+		return
+	}
+
+	DumpTreePreOrder(head.Left)
+	fmt.Print(head.Val)
+	fmt.Print(" ")
 	DumpTreePreOrder(head.Right)
 }
 
@@ -81,4 +115,72 @@ func findLR(array []string, index int) (left *TreeNode, right *TreeNode) {
 		}
 	}
 	return
+}
+
+func DumpNodeLevelOrder(root *Node) {
+	if root == nil {
+		return
+	}
+	p := []*Node{root}
+	for i := 0; len(p) > 0; i++ {
+		var q []*Node
+		fmt.Printf("%d: ", i)
+		for j := 0; j < len(p); j++ {
+			node := p[j]
+			fmt.Printf("%d ", node.Val)
+			if node.Left != nil {
+				q = append(q, node.Left)
+			}
+			if node.Right != nil {
+				q = append(q, node.Right)
+			}
+		}
+		p = q
+		fmt.Println()
+	}
+}
+
+func DumpNodeLevelOrderEx(root *Node) {
+	if root == nil {
+		return
+	}
+
+	fmt.Printf("%d: ", 1)
+	fmt.Print(root.Val)
+	fmt.Println()
+	p := []*Node{root}
+	lineHead := new(Node)
+	lineHead = nil
+	for i := 0; len(p) > 0; i++ {
+		var q []*Node
+		fmt.Printf("%d: ", i+1)
+		for j := 0; j < len(p); j++ {
+			node := p[j]
+			if node.Left == nil && node.Right == nil {
+				continue
+			}
+			if lineHead == nil && node.Left != nil {
+				lineHead = node.Left
+			}
+			if lineHead == nil && node.Right != nil {
+				lineHead = node.Right
+			}
+
+			if node.Left != nil {
+				q = append(q, node.Left)
+			}
+			if node.Right != nil {
+				q = append(q, node.Right)
+			}
+		}
+
+		for lineHead != nil {
+			fmt.Printf("%d ", lineHead.Val)
+			lineHead = lineHead.Next
+		}
+
+		p = q
+
+		fmt.Println()
+	}
 }
