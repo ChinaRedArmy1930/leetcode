@@ -194,28 +194,44 @@ func coinChange(coins []int, amount int) int {
 	return CalcN(root)
 }
 
-func coinChangedp(coins []int, amount int) int {
-	dp := make([]int, amount+1)
-	max := math.MaxInt32
-	for i := 0; i <= amount; i++ {
-		dp[i] = max
-	}
-	dp[0] = 0
-
-	for a := 1; a <= amount; a++ {
-		for _, coin := range coins {
-			if a < coin {
-				continue
-			}
-			dp[a] = min(dp[a], dp[a-coin]+1)
-		}
+func dp(coins []int, amount int, m *map[int]int) int {
+	if amount == 0 {
+		return 0
 	}
 
-	num := dp[amount]
-	if num == max {
+	if amount < 0 {
 		return -1
 	}
-	return num
+	res := math.MaxInt64
+	for _, v := range coins {
+
+		x := math.MaxInt64
+		if _, ok := (*m)[amount-v]; ok {
+			x = (*m)[amount-v]
+		} else {
+			x = dp(coins, amount-v, m)
+			(*m)[amount-v] = x
+		}
+
+		if x == -1 {
+			continue
+		}
+
+		if x < res {
+			res = x + 1
+		}
+	}
+	if res == math.MaxInt64 {
+		return -1
+	}
+
+	return res
+}
+
+func coinChangedp(coins []int, amount int) int {
+	m := make(map[int]int, 0)
+	ret := dp(coins, amount, &m)
+	return ret
 }
 
 func min(x, y int) int {
@@ -226,6 +242,9 @@ func min(x, y int) int {
 }
 
 func main() {
+	fmt.Println(coinChangedp([]int{1, 2, 5}, 11))
+	fmt.Println(coinChangedp([]int{1, 2, 5}, 100))
+
 	//for i := 1000; i < 2000; i++ {
 	//	my := coinChange2([]int{186, 419, 83, 408}, i)
 	//	ok := coinChangedp([]int{186, 419, 83, 408}, i)
@@ -237,7 +256,7 @@ func main() {
 	//
 	//	}
 	//}
-	fmt.Println(coinChange2([]int{186, 419, 83, 408}, 4249))
+	//fmt.Println(coinChange2([]int{186, 419, 83, 408}, 4249))
 	//fmt.Println(coinChangedp([]int{186, 419, 83, 408}, 4249))
 	//fmt.Println(coinChange2([]int{1, 2, 5, 10}, 18))
 	//fmt.Println(coinChange2([]int{2}, 3))
