@@ -1,9 +1,9 @@
 package main
 
 import (
+	"../../common"
 	"container/list"
 	"fmt"
-	"leetcode/common"
 	"math"
 )
 
@@ -64,6 +64,35 @@ func minDepth2(root *common.TreeNode) int {
 	}
 
 	return depth
+}
+
+func minDepth3(root *common.TreeNode) int {
+	if root == nil {
+		return 0
+	}
+	nodeList := list.New()
+	nodeList.PushBack(root)
+	step := 1
+	for nodeList.Len() > 0 {
+		l := nodeList.Len()
+		for i := 0; i < l; i++ {
+			node := nodeList.Front().Value.(*common.TreeNode)
+			nodeList.Remove(nodeList.Front())
+			if node.Left == nil && node.Right == nil {
+				return step
+			}
+			if node.Left != nil {
+				nodeList.PushBack(node.Left)
+			}
+
+			if node.Right != nil {
+				nodeList.PushBack(node.Right)
+			}
+		}
+		step++
+	}
+
+	return step
 }
 
 func main() {

@@ -1,43 +1,47 @@
 package main
 
+import "fmt"
+
 func checkInclusion(s1 string, s2 string) bool {
-	left := 0
-	right := 0
-	valid := 0
+	window := make(map[string]int)
+	need := make(map[string]int)
 
-	window := make(map[int32]int, 0)
-	need := make(map[int32]int, 0)
-
-	for _, v := range s1 {
-		need[v] += 1
+	for i := 0; i < len(s1); i++ {
+		need[string(s1[i])] += 1
 	}
 
+	left := 0
+	right := 0
+	vaild := 0
 	for right < len(s2) {
 		c := s2[right]
 		right++
-		if _, ok := need[int32(c)]; ok {
-			window[int32(c)] += 1
-			if window[int32(c)] == need[int32(c)] {
-				valid++
+		if _, ok := need[string(c)]; ok {
+			window[string(c)] += 1
+			if window[string(c)] == need[string(c)] {
+				vaild++
 			}
 		}
 
-		for valid == len(need) {
-			if right-left == len(s1) {
+		for vaild == len(need) {
+			if right-left == len(need) {
 				return true
 			}
 			d := s2[left]
 			left++
-
-			if _, ok := need[int32(d)]; ok {
-				if window[int32(d)] == need[int32(d)] {
-					valid--
+			window[string(c)] += 1
+			if _, ok := need[string(d)]; ok {
+				if window[string(s2[left])] == need[string(s2[left])] {
+					vaild--
 				}
-
-				window[int32(d)] -= 1
+				window[string(s2[left])] -= 1
 			}
 		}
 	}
 
 	return false
+}
+
+func main() {
+	fmt.Println(checkInclusion("ab", "eidbaooo"))
 }
