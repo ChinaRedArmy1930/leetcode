@@ -188,7 +188,7 @@ func quickSortR(nums []int, start int, end int) {
 	quickSortR(nums, middle+1, end)
 }
 
-func quickSort(nums []int) []int {
+func quickSort1(nums []int) []int {
 	quickSortR(nums, 0, len(nums)-1)
 	return nums
 }
@@ -203,5 +203,5 @@ func main() {
 	//arrays2 := []int{1, 4}
 	//MergeNums(arrays2, 0, 0, 1)
 	//fmt.Println(arrays2)
-	fmt.Println(quickSort(arrays))
+	fmt.Println(quickSort1(arrays))
 }
