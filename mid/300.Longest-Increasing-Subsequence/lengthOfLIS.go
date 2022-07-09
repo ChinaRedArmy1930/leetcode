@@ -2,7 +2,6 @@ package main
 
 import (
 	"fmt"
-	"math"
 	"sort"
 )
 
@@ -11,36 +10,38 @@ func max(x ...int) int {
 	return x[len(x)-1]
 }
 
-func dp(nums []int) int {
-	//1. dpTable[i] 代表以i结尾的最长递增子序列
+func dp(nums []int) []int {
 	dpTable := make([]int, len(nums))
-	//2. dpTable初始化
-	for i := 0; i < len(dpTable); i++ {
-		dpTable[i] = 1
-	}
-	//3.状态转移方程
-
-	//4. 遍历顺序 从左到右
+	dpTable[0] = 1
 
 	for i := 1; i < len(nums); i++ {
-		maxN := ^math.MaxInt16
-		for j := 0; j < i; j++ {
+		v := -1
+		for j := i - 1; j >= 0; j-- {
 			if nums[j] < nums[i] {
-				if dpTable[j] > maxN {
-					maxN = dpTable[j]
+				if dpTable[j] > v {
+					v = dpTable[j]
 				}
 			}
 		}
-		if maxN != ^math.MaxInt16 {
-			dpTable[i] = maxN + 1
+
+		if v == -1 {
+			dpTable[i] = 1
+		} else {
+			dpTable[i] = v + 1
 		}
 	}
 
-	//5. 打印数组
 	fmt.Println(dpTable)
-	return max(dpTable...)
+	return dpTable
 }
 
 func lengthOfLIS(nums []int) int {
-	return dp(nums)
+	t := dp(nums)
+	return max(t...)
+}
+
+func main() {
+	fmt.Println(lengthOfLIS([]int{10, 9, 2, 5, 3, 7, 101, 18}))
+	fmt.Println(lengthOfLIS([]int{4, 10, 4, 3, 8, 9}))
+	fmt.Println(lengthOfLIS([]int{1, 3, 6, 7, 9, 4, 10, 5, 6}))
 }
