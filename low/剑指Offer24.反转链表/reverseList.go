@@ -64,10 +64,22 @@ func reverseList1(head *common.ListNode) *common.ListNode {
 	return prev
 }
 
+func reverseListR(head *common.ListNode) *common.ListNode {
+	if head == nil || head.Next == nil {
+		return nil
+	}
+
+	head.Next = reverseListR(head)
+	head.Next.Next = head
+	head.Next = nil
+
+	return head
+}
+
 func main() {
 	head := common.BuildList([]int{1, 2, 3, 4, 5, 6, 7, 8, 9})
 
-	common.DumpList(reverseList(head))
+	common.DumpList(reverseListR(head))
 	ret := rev2(head)
 	fmt.Println(ret)
 }

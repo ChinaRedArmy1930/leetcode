@@ -80,6 +80,7 @@ func DumpList(list *ListNode) {
 		fmt.Print(debug.Val)
 		debug = debug.Next
 	}
+	fmt.Println()
 }
 
 //index代表array下标
